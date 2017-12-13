@@ -1,0 +1,38 @@
+html,body{
+    width:100%;
+    height: 100%;
+    background: #222;
+}
+
+.content{
+    width:100%;
+    height: 100%;
+}
+
+.stage{
+    position: relative;
+    width: 100%;
+    height: 680px;
+}
+
+/* img-sec start*/
+.img-sec{
+    position: relative;
+    width: 100%;
+    height: 100%;
+    background: #ddd;
+}
+/* img-sec end*/
+
+/*  controller-sec  start  */
+.controller-nav{
+    position: absolute;
+    left:0;
+    bottom: 30px;
+    z-index: 101;
+
+    width:100%;
+    text-align:center;
+}
+/*  controller-sec  end  */
+
