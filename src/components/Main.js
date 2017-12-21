@@ -23,8 +23,8 @@ imageDatas = (function genImageURL(imageDatasArr) {
     return imageDatasArr;
 })(imageDatas);
 
-function getRangeRandom(low,high){
-  return Math.ceil(Math.random()*(high - low) + low);
+function getRangeRandom(low, high) {
+  return Math.ceil(Math.random() * (high - low) + low);
 }
 
 
@@ -68,9 +68,9 @@ class AppComponent extends React.Component {
         vPosRangeTopY = vPosRange.topY,
         vPosRangeX = vPosRange.x,
 
-        //
+        //分配在顶部的数组
         imgsArrangeTopArr = [],
-        topImgNum = Math.ceil(Math.random()),
+        topImgNum = Math.floor(Math.random()*2),
         //取一个或者不取
         topImgSpliceIndex = 0,
 
@@ -84,13 +84,15 @@ class AppComponent extends React.Component {
         imgsArrangeTopArr = imgsArrangeArr.splice(topImgSpliceIndex,topImgNum);
 
         imgsArrangeTopArr.forEach((value,index)=>{
-          imgsArrangeArr[index].pos = {
+          imgsArrangeTopArr[index].pos = {
             top:getRangeRandom(vPosRangeTopY[0],vPosRangeTopY[1]),
             left:getRangeRandom(vPosRangeX[0],vPosRangeX[1])
           }
         })
 
-        for(var i = 0,j = imgsArrangeArr.length, k = j/2;i<j;i++){
+        console.log(imgsArrangeTopArr);
+
+        for(var i = 0,j = imgsArrangeArr.length, k = j/2 ;i <j ;i++){
           let hPosRangeLORX = null;
 
           if(i<k){
@@ -100,7 +102,7 @@ class AppComponent extends React.Component {
           }
 
           imgsArrangeArr[i].pos = {
-            top:getRangeRandom(hPosRangeY[0],hPosRange[1]),
+            top:getRangeRandom(hPosRangeY[0],hPosRangeY[1]),
             left:getRangeRandom(hPosRangeLORX[0],hPosRangeLORX[1])
           }
         }
@@ -133,7 +135,7 @@ class AppComponent extends React.Component {
         imgW = imgFigureDOM.scrollWidth,
         imgH = imgFigureDOM.scrollHeight,
         halfImgW = Math.ceil(imgW / 2),
-        halfImgH = Math.ceil(imgH / 2); 
+        halfImgH = Math.ceil(imgH / 2);
 
 
         console.log(imgFigureDOM)
@@ -145,9 +147,11 @@ class AppComponent extends React.Component {
 
     //水平方向的取之范围
     this.Constant.hPosRange.leftSecX[0] = -halfImgW;
-    this.Constant.hPosRange.leftSecX[1] =  halfImgW - halfImgW *3;
+    this.Constant.hPosRange.leftSecX[1] =  halfStageW - halfImgW *3;
     this.Constant.hPosRange.rightSecX[0] = halfImgW + halfImgW;
-    this.Constant.hPosRange.rightSecX[1] = stageW + halfImgW;
+    this.Constant.hPosRange.rightSecX[1] = stageW - halfImgW;
+    this.Constant.hPosRange.y[0] = -halfImgH;
+    this.Constant.hPosRange.y[1] = stageH - halfImgH;
 
     // 计算上侧区域图片排布位置的取值范围
     this.Constant.vPosRange.topY[0] = -halfImgH;
@@ -191,7 +195,6 @@ class AppComponent extends React.Component {
           <section className="img-sec">
             {imgFigures}
           </section>
-          <p>11</p>
           <nav className="controller-sec">
           </nav>
       </section>
