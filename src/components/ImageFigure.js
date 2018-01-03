@@ -4,7 +4,11 @@ class ImageFigure extends Component {
 
     handleClick(e){
 
-        this.props.inverse();
+        if(this.props.arrange.isCenter){
+            this.props.inverse();
+        } else {
+            this.props.center()
+        }
         e.stopPropagation();
         e.preventDefault();
     }
@@ -19,6 +23,10 @@ class ImageFigure extends Component {
             ["-webkit-","-moz-","-ms-",""].forEach((value,index)=>{
                 styleObj[value+"transform"] = "rotate(" + this.props.arrange.rotate + "deg)";
             });
+        }
+
+        if(this.props.arrange.isCenter){
+            styleObj.zIndex = 11;
         }
 
         let imgFigureClassName = "img-figure";

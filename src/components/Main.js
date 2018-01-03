@@ -1,7 +1,7 @@
 require('normalize.css/normalize.css');
 require('styles/App.css');
 
-import React from 'react';
+import React,{Component} from 'react';
 import ReactDOM from 'react-dom'
 import ImageFigure from './ImageFigure';
 
@@ -28,7 +28,7 @@ function getRangeRandom(low, high) {
 }
 
 function get30DegRandom(){
-  return (Math.random() > 0.5 ? "" : "-" + Math.ceil(Math.random() * 30))
+  return ((Math.random() > 0.5 ? "" : "-") + Math.ceil(Math.random() * 30));
 }
 
 class AppComponent extends React.Component {
@@ -52,7 +52,9 @@ class AppComponent extends React.Component {
     }
     
     this.state = {
-      imgsArrangeArr:[]
+      imgsArrangeArr:[
+
+      ]
     }
   }
   
@@ -69,7 +71,14 @@ class AppComponent extends React.Component {
       imgsArrangeArr:imgsArrangeArr
     })
   }
-   
+
+  /**
+   * 
+   * @returns {Function}
+   */
+  center = (index) => () => {
+    this.rearrange(index);
+  }
 
   /**
    * 
@@ -99,9 +108,12 @@ class AppComponent extends React.Component {
         imgsArrangeCenterArr = imgsArrangeArr.splice(centerIndex,1);
 
         // 首先居中  centerIndex 的图片
-        imgsArrangeCenterArr[0].pos = centerPos;
-
-        imgsArrangeCenterArr[0].rotate = 0;
+        imgsArrangeCenterArr[0] = {
+          pos : centerPos,
+          rotate : 0,
+          isInverse:false,
+          isCenter:true,
+        }
 
         topImgSpliceIndex = Math.ceil(Math.random() * (imgsArrangeArr.length - topImgNum));
 
@@ -114,7 +126,8 @@ class AppComponent extends React.Component {
               left:getRangeRandom(vPosRangeX[0],vPosRangeX[1])
             },
             rotate:get30DegRandom(),
-            isInverse:false
+            isInverse:false,
+            isCenter:false,
           }
         })
 
@@ -135,7 +148,7 @@ class AppComponent extends React.Component {
               left:getRangeRandom(hPosRangeLORX[0],hPosRangeLORX[1])
             },
             rotate:get30DegRandom(),
-            isInverse:false
+            isCenter:false,
           }
 
         }
@@ -212,12 +225,18 @@ class AppComponent extends React.Component {
                       left: 0,
                       top: 0
                   },
-                  rotate:0
+                  rotate:0,
+                  isInverse:false,
+                  isCenter:false 
               };
           }
-          imgFigures.push(<ImageFigure data={value} key={value.fileName} ref={"imgFigure" + index} arrange={this.state.imgsArrangeArr[index]} inverse = {this.inverse(index)}/>)
-        }
-        );
+          imgFigures.push(<ImageFigure data={value} key={value.fileName} ref={"imgFigure" + index} 
+              arrange={this.state.imgsArrangeArr[index]} 
+              center = {this.center(index)}
+              inverse = {this.inverse(index)}/>);
+
+              controllerUnits.push(<ControllerUnit />);    
+        });
 
     return (
       // <div className="index">
@@ -229,11 +248,27 @@ class AppComponent extends React.Component {
           <section className="img-sec">
             {imgFigures}
           </section>
-          <nav className="controller-sec">
+          <nav className="controller-nav">
+            {controllerUnits}
           </nav>
       </section>
 
     );
+  }
+}
+
+class ControllerUnit extends Component {
+
+  handleClick = (e) => {
+    e.stopPropagation();
+    e.preventDefault();
+  }
+
+  render () {
+    return (
+      <span className="controller-unit" onClick={this.handleClick}>
+      </span>
+    )
   }
 }
 
