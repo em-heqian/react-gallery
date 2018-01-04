@@ -13,6 +13,12 @@ class ImageFigure extends Component {
         e.preventDefault();
     }
 
+    componentWillReceiveProps(nextProps){
+        console.log(nextProps);
+    }
+
+
+
     render() {
         let styleObj = {};
         if(this.props.arrange.pos){
@@ -20,8 +26,8 @@ class ImageFigure extends Component {
         }
 
         if(this.props.arrange.rotate){
-            ["-webkit-","-moz-","-ms-",""].forEach((value,index)=>{
-                styleObj[value+"transform"] = "rotate(" + this.props.arrange.rotate + "deg)";
+            ["WebkitTransform","MozTransform","msTransform","transform"].forEach((value,index)=>{
+                styleObj[value] = "rotate(" + this.props.arrange.rotate + "deg)";
             });
         }
 
@@ -31,7 +37,7 @@ class ImageFigure extends Component {
 
         let imgFigureClassName = "img-figure";
             imgFigureClassName += this.props.arrange.isInverse ? ' is-inverse' : '';
-        console.log(styleObj);
+        //console.log(styleObj);
 
         return (
             <figure className={imgFigureClassName} style={styleObj} onClick={e => this.handleClick(e)}>
@@ -40,6 +46,11 @@ class ImageFigure extends Component {
                 />
                 <figcaption>
                     <h2 className="img-title">{this.props.data.title}</h2>
+                    <div className="img-back" onClick={this.handleClick}>
+                      <p>
+                        {this.props.data.desc}
+                      </p>
+                    </div>
                 </figcaption>
             </figure>
         );
