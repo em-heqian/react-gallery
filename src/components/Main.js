@@ -235,7 +235,10 @@ class AppComponent extends React.Component {
               center = {this.center(index)}
               inverse = {this.inverse(index)}/>);
 
-              controllerUnits.push(<ControllerUnit />);    
+              controllerUnits.push(<ControllerUnit 
+                active={this.state.imgsArrangeArr[index].isCenter} 
+                inverse = {this.state.imgsArrangeArr[index].isInverse}
+                center = {this.center(index)}/>);    
         });
 
     return (
@@ -262,11 +265,17 @@ class ControllerUnit extends Component {
   handleClick = (e) => {
     e.stopPropagation();
     e.preventDefault();
+    this.props.center();
   }
 
   render () {
+
+    let controllerUnitClassName = "controller-unit";
+        controllerUnitClassName += this.props.active ? ' is-center' : '';
+        controllerUnitClassName += this.props.inverse ? ' is-reverse' : '';
+        
     return (
-      <span className="controller-unit" onClick={this.handleClick}>
+      <span className={controllerUnitClassName} onClick={this.handleClick}>
       </span>
     )
   }
